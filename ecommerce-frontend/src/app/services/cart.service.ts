@@ -63,4 +63,22 @@ export class CartService {
       )}, totalQuantity: ${totalQuantityValue}`
     );
   }
+
+  decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--;
+    if (theCartItem.quantity === 0) {
+      this.remove(theCartItem);
+    } else {
+      this.computeCartTotals();
+    }
+  }
+  remove(theCartItem: CartItem) {
+    //get the index of item in the array
+    const idx = this.cartItems.findIndex((tmp) => tmp.id === theCartItem.id);
+    //if found, remove the item from the array at the given index
+    if (idx > -1) {
+      this.cartItems.splice(idx, 1);
+      this.computeCartTotals();
+    }
+  }
 }
